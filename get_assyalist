@@ -1,0 +1,21 @@
+#!/usr/local/bin/bash
+
+shopt -s nocasematch # to compare regardless of upper or lower case
+
+if [ $# -lt 2 ]; then
+        echo Usage: get_ge_assaylist \<filename\> \<get\|ge\>
+        exit 1
+fi
+
+filename=$1
+
+if [ $2 == 'ge' ] || [ $2 == 'GE' ]; then
+	cut -f2 /csprod/flatfiles/ABWESTCOAST/$filename | tail -n +2 | sed -e "s/^\|$/'/g" | tr '\n' ',' | sed -e 's/,$/\n/g' -e 's/,/,\n/g'
+fi
+
+if [ $2 == 'gt' ] || [ $2 == 'GT' ] ; then
+	# For GT, just use the assay list as is - no need to pull from DB
+	# Hence, code to add quotes etc. is commented out
+	cut -f1 /csprod/flatfiles/ABWESTCOAST/$filename | tail -n +2 | sed -e "s/^\|$/'/g" | tr '\n' ',' | sed -e 's/,$/\n/g' -e 's/,/,\n/g'
+fi
+

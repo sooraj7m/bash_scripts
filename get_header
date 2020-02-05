@@ -1,0 +1,7 @@
+
+if [ $# -lt 1 ]; then
+	echo Usage: get_header \<full_filename\>
+	exit 0
+fi
+
+head -1 $1 | tr '\t' '\n'

@@ -1,0 +1,21 @@
+#!/usr/bin/bash
+
+if [ $# -lt 1 ]; then
+        echo "add2defn: usage: add2abbv 'ABBV: Definition of ABBV'"
+        exit 1
+fi
+
+file_path=~/maharjas
+orig_file=thermo_defn.txt
+filename=thermo_defn_`date '+%m%d%y%n'`.txt
+
+cp $file_path/$orig_file $file_path/archive/$filename
+cp $file_path/$orig_file $file_path/thermo_defn_bc.txt
+
+echo $1 >> $file_path/$orig_file
+
+if [ $? -gt 0 ]; then
+        echo $1 add failed!
+else
+        echo $1 added successfully!
+fi

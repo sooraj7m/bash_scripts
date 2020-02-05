@@ -1,0 +1,36 @@
+#!/bin/bash
+
+if [ $# -lt 2 ]; then
+        echo Usage: qa_starter \<filename\> \<ge\|gt\>
+        exit 1
+fi
+
+filename=$1
+
+if [ $2 == 'ge' ] || [ $2 == 'GE' ]; then
+	echo expected counts from filename
+	myvar=`echo $filename`
+	echo $myvar | cut -f4 -d'_'
+	echo
+	echo count total lines
+	cnt=`wc -l /csprod/flatfiles/ABWESTCOAST/$filename | cut -f1 -d' '`
+	expr $cnt - 1
+	echo
+
+	echo "Obsolete=Y/N | If Y need to run obsolete script, if N need run load script"
+        awk -F '\t' '{ print $5 }' /csprod/flatfiles/ABWESTCOAST/$filename | sed -e '/Obsolete/d' | sort | uniq
+elif [ $2 == 'gt' ] || [ $2 == 'GT' ] ; then
+	echo expected counts from filename
+	myvar=`echo $filename`
+	echo $myvar | cut -f6 -d'_'
+	echo
+	echo count total lines
+	cnt=`wc -l /csprod/flatfiles/ABWESTCOAST/$filename | cut -f1 -d' '`
+	expr $cnt - 1
+	echo
+
+        # For GT, just use the assay list as is - no need to pull from DB
+        # Hence, code to add quotes etc. is commented out
+	echo "Obsolete=Y/N | If Y need to run obsolete script, if N need run load script"
+        awk -F '\t' '{ print $10 }' /csprod/flatfiles/ABWESTCOAST/$filename | sed -e '/Obsolete/d' | sort | uniq 
+fi

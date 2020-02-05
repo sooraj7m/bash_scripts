@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [ $# -lt 1 ]; then
+        echo "add2abbv: usage: add2abbv 'ABBV: Full description of ABBV'"
+        exit 1
+fi
+
+file_path=~/maharjas
+orig_file=thermo_abbv.txt
+filename=thermo_abbv_`date '+%m%d%y%n'`.txt
+
+#cp /home/s631693/qos_abbv.txt /home/s631693/archieve/$filename
+#cp /home/s631693/qos_abbv.txt /home/s631693/qos_abbv_bc.txt
+
+cp $file_path/$orig_file $file_path/archive/$filename
+cp $file_path/$orig_file $file_path/thermo_abbv_bc.txt
+
+echo $1 >> $file_path/$orig_file
+
+if [ $? -gt 0 ]; then
+        echo $1 add failed!
+else
+        echo $1 added successfully!
+fi
